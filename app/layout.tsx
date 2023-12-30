@@ -7,8 +7,9 @@ export const metadata: Metadata = {
     template: '%s | Acme Dashboard',
     default: 'Acme Dashboard',
   },
-  description: 'The official Next.js Learn Dashboard built with App Router.',
+  description: 'The Next.js app built by Ethan Klukkert.',
   metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
+  keywords: ["ethanmk2", "portfolio", "ethanklukkert", "tutorial", "acme dashboard"]
 };
 
 // export const metadata: Metadata = {
