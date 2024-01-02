@@ -1,6 +1,7 @@
 import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
 import { Metadata } from 'next';
+import { createContext } from "react";
 
 export const metadata: Metadata = {
   title: {

@@ -25,7 +25,28 @@ const config: Config = {
           transform: 'translateX(100%)',
         },
       },
+      fadeOutIn: {
+        '0%': {
+          opacity: '1',
+        },
+        '25%': {
+          opacity: '0.5',
+        },
+        '50%': {
+          opacity: '0',
+        },
+        '75%': {
+          opacity: '0.5',
+        },
+        '100%': {
+          opacity: '1'
+        }
+      },
     },
+    animation: {
+      shimmer: 'shimmer 1s ease-in-out infinite',
+      fadeOutIn: 'fadeOutIn 1s ease-in-out infinite',
+    }
   },
 
   plugins: [require('@tailwindcss/forms')],
