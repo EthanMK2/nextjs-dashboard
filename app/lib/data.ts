@@ -9,7 +9,7 @@ import {
   Revenue,
 } from "./definitions";
 import { formatCurrency } from "./utils";
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
 // NOTE: the sql 'template literal tag' translates queries into native Postgres
 // parameterized queries to prevent SQL injections. IT AUTOMATICALLY connects to the
@@ -40,6 +40,7 @@ export async function fetchRevenue() {
 }
 
 export async function fetchLatestInvoices() {
+  console.log('fetched latest once')
   noStore();
   try {
     const data = await sql<LatestInvoiceRaw>`

@@ -42,10 +42,19 @@ const config: Config = {
           opacity: '1'
         }
       },
+      spin: {
+        '0%': {
+          transform: 'rotate(0)',
+        },
+        '100%': {
+          transform: 'rotate(360deg)'
+        }
+      },
     },
     animation: {
       shimmer: 'shimmer 1s ease-in-out infinite',
       fadeOutIn: 'fadeOutIn 1s ease-in-out infinite',
+      spin: 'spin 1s ease-in-out infinite',
     }
   },
 

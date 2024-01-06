@@ -3,6 +3,7 @@ import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
 import { CustomersTable } from '@/app/lib/definitions';
 import { fetchFilteredCustomers } from '@/app/lib/data';
+import { CreateCustomer } from './buttons';
 
 export default async function CustomersTable({ query, currentPage }: { query: string, currentPage: number }) {
   const customers = await fetchFilteredCustomers(query, currentPage);
@@ -12,7 +13,11 @@ export default async function CustomersTable({ query, currentPage }: { query: st
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
         Customers
       </h1>
-      <Search placeholder="Search customers..." />
+      <div className='mt-4 flex items-center justify-between gap-2 md:mt-8'>
+        <Search placeholder="Search customers..." />
+        <CreateCustomer />
+      </div>
+
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
