@@ -8,6 +8,8 @@ import {
   RevenueChartSkeleton,
 } from "@/app/ui/skeletons";
 import CardWrapper from "@/app/ui/dashboard/cards";
+import { headers } from "next/dist/client/components/headers";
+import MyAPIButton from "@/app/ui/my-api-button";
 
 export default async function Page() {
   return (
@@ -28,6 +30,8 @@ export default async function Page() {
         <Suspense fallback={<LatestInvoicesSkeleton />}>
           <LatestInvoices />
         </Suspense>
+
+        <MyAPIButton />
       </div>
     </main>
   );
