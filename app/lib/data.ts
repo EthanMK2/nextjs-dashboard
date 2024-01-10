@@ -9,7 +9,7 @@ import {
   Revenue,
 } from "./definitions";
 import { formatCurrency } from "./utils";
-import { unstable_noStore as noStore, revalidatePath } from "next/cache";
+import { unstable_noStore as noStore } from "next/cache";
 
 // NOTE: the sql 'template literal tag' translates queries into native Postgres
 // parameterized queries to prevent SQL injections. IT AUTOMATICALLY connects to the
@@ -199,6 +199,7 @@ export async function fetchInvoiceById(id: string) {
 }
 
 export async function fetchCustomers() {
+  noStore();
   try {
     const data = await sql<CustomerField>`
       SELECT

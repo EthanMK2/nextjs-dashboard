@@ -11,12 +11,14 @@ import {
 import { Button } from '@/app/ui/button';
 import { createInvoice } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
+import { useState } from 'react';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
   const initialState = {
     message: null, errors: {}
   }
   const [state, dispatch] = useFormState(createInvoice, initialState)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   return (
     <form action={dispatch}>
@@ -143,7 +145,9 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        <Button type="submit" onSubmit={() => {
+          setIsSubmitting(true);
+        }} disabled={isSubmitting}>Create Invoice</Button>
       </div>
     </form>
   );
