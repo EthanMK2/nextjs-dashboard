@@ -7,6 +7,7 @@ import {
   LatestInvoiceRaw,
   User,
   Revenue,
+  Customer,
 } from "./definitions";
 import { formatCurrency } from "./utils";
 import { unstable_noStore as noStore } from "next/cache";
@@ -198,6 +199,29 @@ export async function fetchInvoiceById(id: string) {
   }
 }
 
+export async function fetchCustomerById(id: string) {
+  noStore();
+  try {
+    const data = await sql<Customer>`
+      SELECT
+        id,
+        name,
+        email,
+        image_url
+      FROM customers
+      WHERE id = ${id};
+    `;
+
+    const customer = data.rows.map((customer) => ({
+      ...customer,
+    }));
+
+    return customer[0];
+  } catch (error) {
+    console.error("Database Error:", error);
+  }
+}
+
 export async function fetchCustomers() {
   noStore();
   try {
@@ -221,6 +245,7 @@ export async function fetchFilteredCustomers(
   query: string,
   currentPage: number
 ) {
+  noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     const data = await sql<CustomersTable>`

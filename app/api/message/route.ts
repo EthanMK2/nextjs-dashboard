@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server"
+import { fetchCustomers } from "@/app/lib/data";
 
 export async function GET() {
-  const res = {
-    message: "This is data from my API!"
-  }
+  const res = fetchCustomers();
+  
 
   return NextResponse.json(res);
 }

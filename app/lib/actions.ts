@@ -49,6 +49,7 @@ const CustomerFormSchema = z.object({
 const CreateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
 const UpdateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
 const CreateCustomer = CustomerFormSchema.omit({ id: true });
+const UpdateCustomer = CustomerFormSchema.omit({ id: true });
 
 export type InvoiceFormState = {
   errors?: {
@@ -106,11 +107,15 @@ export async function createInvoice(prevState: InvoiceFormState, formData: FormD
   redirect('/dashboard/invoices');
 }
 
+// !!!!!!!!!!!!!!!!!! IMPORTANT !!!!!!!!!!!!!!!!!!!
+// seemingly, when using autocomplete on inputs, the create doesn't work, yet
+// also doesn't throw an error on client. When typing in the name and email, it
+// seems to work consistently. But, when autocompleting the inputs with previous
+// entries it won't create, yet throw no errors. 
 export async function createCustomer(prevState: CustomerFormState, formData: FormData) {
   const validatedFields = CreateCustomer.safeParse({
     name: formData.get('name'),
-    email: formData.get('email'),
-    image_url: formData.get('image_url')
+    email: formData.get('email')
   });
 
   if (!validatedFields.success) {
@@ -133,8 +138,37 @@ export async function createCustomer(prevState: CustomerFormState, formData: For
     }
   }
 
-  revalidatePath('dashboard/customers');
+  revalidatePath('/dashboard/customers');
   redirect('/dashboard/customers');
+}
+
+export async function updateCustomer(id: string, prevState: CustomerFormState, formData: FormData) {
+  const validatedFields = UpdateCustomer.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update Invoice.',
+    };
+  }
+
+  const { name, email } = validatedFields.data;
+  try {
+    await sql`
+      UPDATE customers
+      SET name = ${name}, email = ${email}
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    return {
+      message: "Database error: Failed to update invoice"
+    }
+  }
+  revalidatePath("/dashboard/customers");
+  redirect("/dashboard/customers");
 }
 
 export async function updateInvoice(id: string, prevState: InvoiceFormState, formData: FormData) {
@@ -175,6 +209,17 @@ export async function deleteInvoice(id: string) {
   } catch (error) {
     return {
       message: "Database error: Failed to delete invoice"
+    }
+  }
+}
+
+export async function deleteCustomer(id: string) {
+  try {
+    await sql`DELETE FROM customers WHERE id = ${id}`;
+    revalidatePath('/dashboard/customers');
+  } catch (error) {
+    return {
+      message: "Database error: Failed to delete customer"
     }
   }
 }

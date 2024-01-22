@@ -3,7 +3,7 @@ import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
 import { CustomersTable } from '@/app/lib/definitions';
 import { fetchFilteredCustomers } from '@/app/lib/data';
-import { CreateCustomer } from './buttons';
+import { CreateCustomer, DeleteCustomer, UpdateCustomer } from './buttons';
 
 export default async function CustomersTable({ query, currentPage }: { query: string, currentPage: number }) {
   const customers = await fetchFilteredCustomers(query, currentPage);
@@ -60,6 +60,10 @@ export default async function CustomersTable({ query, currentPage }: { query: st
                     <div className="pt-4 text-sm">
                       <p>{customer.total_invoices} invoices</p>
                     </div>
+                    <div className="flex justify-end gap-2">
+                      <UpdateCustomer id={customer.id} />
+                      <DeleteCustomer id={customer.id} />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -111,7 +115,12 @@ export default async function CustomersTable({ query, currentPage }: { query: st
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {customer.total_paid}
                       </td>
+                      <td className="flex justify-end gap-2 bg-white px-4 py-5">
+                        <UpdateCustomer id={customer.id} />
+                        <DeleteCustomer id={customer.id} />
+                      </td>
                     </tr>
+
                   ))}
                 </tbody>
               </table>
